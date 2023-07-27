@@ -1,8 +1,18 @@
 # Rated Restaurants - A Micro 'Yelp' API  🍔   
 
-I created an API that returns ratings and cuisine for different restaurants with the ability to add new restaurants, update their details, and delete them as needed.
+I created an API that returns ratings and cuisine for different restaurants with the ability to add new restaurants, update their details, and delete them as needed 🚀
 
-I used Node.js / [node-postgres](https://node-postgres.com/) for the backend and [PostgreSQL](https://www.postgresql.org/) for the database 🚀
+#### Backend 
+-  [Node.js](https://nodejs.org/en)
+-  [Express.js](https://expressjs.com/)
+
+#### Database 
+-  [PostgreSQL](https://www.postgresql.org/)
+-  [PG-Format](https://www.npmjs.com/package/pg-format)
+
+### Testing
+-  [Jest](https://jestjs.io/)
+-  [Supertest](https://www.npmjs.com/package/supertest)
 
 
 ## Installation ⚙️
