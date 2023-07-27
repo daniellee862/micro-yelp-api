@@ -1,24 +1,40 @@
-# Rated Restaurants
+# Rated Restaurants - A Micro 'Yelp' API  🍔   
 
-## A micro [yelp](https://www.yelp.co.uk/c/manchester/restaurants) clone API using Express and SQL
+I created an API that returns ratings and cuisine for different restaurants with the ability to add new restaurants, update their details, and delete them as needed.
 
-### Background
+I used Node.js / [node-postgres](https://node-postgres.com/) for the backend and [PostgreSQL](https://www.postgresql.org/) for the database 🚀
 
-We are going to build an API which shows ratings and cuisine for restaurants in the North.
-For this Sprint we will be using [PostgreSQL](https://www.postgresql.org/) and [node-postgres](https://node-postgres.com/).
 
-### W3 Schools
+## Installation ⚙️
 
-When we are looking for in depth knowledge on JavaScript we tend to use MDN - W3 Schools is a very good resource for referencing and learning SQL. [Here is the link](http://www.w3schools.com/sql/default.asp)
+1.Clone the repository.
 
-## Seeding
+2.Install the required dependencies.
 
-You will need to create the database you can use the `setup-db` command.
-Then to seed the database, there is a file in the `db` folder for the database. You can run this file with the `run-seed` script.
+```bash 
+  cd my-project
+  npm install my-project
+```
 
-### Tables
+3.Set up the database and seed it with initial data.
 
-Both of the databases share the following table setup:
+```bash 
+  npm run setup-db
+  npm run run-seed
+```
+
+4.Configure the database connection settings in the db.js file to match your PostgreSQL setup.
+
+
+Now you're all set to run the API using npm start and start exploring the various endpoints 🔥
+
+```bash 
+  npm start
+```
+    
+## Database 💾
+
+The installation created two databases that share the following tables;
 
 #### Areas Table
 
@@ -46,61 +62,54 @@ The rating must be an integer with a minimum value of one and a maximum value of
 
 A rating does not need to know which Area the Restaurant it `belongs to` is in.
 
-## API challenges
 
-Now that we have our connection to our databases containing our data, we can start to build our server to interact with our data.
+Both of the databases share the following table setup:
 
-**Test setup:** The next thing to do is to update the `"test"` script in the `package.json` file, so that it will seed the data and then run the tests using `jest`. [This Stack Overflow answer will be helpful!](https://stackoverflow.com/questions/4510640/what-is-the-purpose-of-in-a-shell-command)
 
-For each of the following endpoints, first write a test using `supertest` and then implement the endpoint.
+## API Reference 🌐
 
-**Make sure to start with the happy path, testing under the assumption that the client request is correctly formed and all goes well!**
-**Then consider the sad path, thinking about how your server should respond if client requests are in some form incorrect**
+#### 1. GET /api 🍟
 
-### 1. GET /api
+Responds with a JSON object containing a 'message' key.
 
-This endpoint should respond with a json object containing a 'message' key.
-
-_Note: you do **not** need a model function for this endpoint, as we are not interacting with the database!_
-
-```js
-{
+```json
+  {
   "message": "all ok"
-}
+  }
 ```
+Does not interact with the database and serves as a simple check to ensure the API is up and running.
 
-### 2. GET /api/restaurants
+#### 2. GET /api/restaurants 🍕
 
-This endpoint should respond with a json object containing a key of `restaurants` with a value of an array of all the restaurant objects.
+Responds with a JSON object containing an array of all restaurant objects.
 
-E.g.
-
-```js
-{
+```json
+  {
   "restaurants": [
     // ... restaurant objects
   ]
-}
+  }
 ```
 
-### 3. POST /api/restaurants
+#### 3. POST /api/restaurants 🌭
 
-This endpoint should add a restaurant to the database and respond with newly created restaurant
+Adds a new restaurant to the database and responds with the newly created restaurant object.
 
-```js
-// POST /api/restaurants - example request body:
+Example Request Body:
 
-{
+```json
+  {
   "restaurant_name": "The Codfather",
   "area_id": 2,
   "cuisine": "British",
   "website": "www.thecodfather.com"
-};
-```
+  }
+  ```
 
-```js
-// Example response:
-{
+Example Response:
+
+```json
+  {
   "restaurant": {
     "restaurant_id": 9,
     "restaurant_name": "The Codfather",
@@ -108,28 +117,28 @@ This endpoint should add a restaurant to the database and respond with newly cre
     "cuisine": "British",
     "website": "www.thecodfather.com"
   }
-}
-```
+  }
+  ```
 
-### 4. DELETE /api/restaurants/:restaurant_id
+#### 4. DELETE /api/restaurants/:restaurant_id 🍦
+Deletes the specified restaurant from the database and responds with a 204 No Content status.
 
-This endpoint should delete the specified restaurant from the database and respond with a 204 No Content status.
+#### 5. PATCH /api/restaurants/:restaurant_id 🍔
+Updates the area_id field of the specified restaurant and responds with the updated restaurant object
 
-### 5. PATCH /api/restaurants/:restaurant_id
+Example Request Body:
 
-This endpoint should be able to update the `area_id` field of the specified restaurant. It should respond with the updated restaurant object. Extra/invalid keys in the request object should be ignored, but an empty object in the request should get a 400 response.
-
-```js
-// PATCH /api/restaurants/3 - example request body:
-
-{
+```json
+  // PATCH /api/restaurants/3 - example request body:
+  {
   "area_id": 2 // <--- was previously area_id 3 for this restaurant
-};
-```
+  }
+  ```
 
-```js
-// Example response:
-{
+Example Response:
+
+```json
+  {
   "restaurant": {
     "restaurant_id": 3,
     "restaurant_name": "Rudys Pizza",
@@ -138,14 +147,14 @@ This endpoint should be able to update the `area_id` field of the specified rest
     "website": "http://rudyspizza.co.uk/"
   }
 }
-```
+  ```
 
-### 6. GET /api/areas/:area_id/restaurants
+#### 6. GET /api/areas/:area_id/restaurants 🍿
+Responds with a JSON object containing the area details, including a count of the restaurants in that area and an array of those restaurants.
 
-This endpoint should respond with a json object with the area details, containing a count of the restaurants in that area and an array of those restaurants.
+Example Response:
 
-```js
-// GET /api/areas/1/restaurants
+```json
 {
   "area": {
     "area_id": 1,
@@ -156,66 +165,9 @@ This endpoint should respond with a json object with the area details, containin
     ]
   }
 }
-```
 
-### 7. GET /api/restaurants
+  ```
 
-Update the existing endpoint so that each restaurant object has an `average_rating` property.
+#### 7. GET /api/restaurants (with average_rating) 🍗
+This endpoint updates the existing /api/restaurants endpoint to include an average_rating property for each restaurant object. The average_rating is calculated based on the ratings associated with that restaurant.
 
-## Even More Challenges
-
-### 8. GET /api/restaurants?search=**searchTerm**
-
-Update the above endpoint to allow a `search` query which will filter the results for any restaurant names that match, or partially match, the search term.
-
-**Hint:** - Implement this filtering in your SQL query rather than JavaScript.
-
-E.g.
-
-```js
-// GET /api/restaurants?search=pi
-{
-  "restaurants": [
-    // Rudys Pizza restaurant object,
-    // Pieminister restaurant object
-  ]
-}
-```
-
-### 9. PATCH /api/restaurants/:restaurant_id
-
-Update this endpoint so that multiple valid keys could be provided and all of those fields get updated.
-
-```js
-// PATCH /api/restaurants/5 - example request body:
-{
- "website": "http://updatedWebsite.co.uk/",
- "area_id": 2 // <--- was area_id 1
-};
-```
-
-```js
-// Example response:
-{
-  "restaurant": {
-    "restaurant_id": 5,
-    "restaurant_name": "Pieminister",
-    "area_id": 2,
-    "cuisine": "Pies and More Pies",
-    "website": "http://updatedWebsite.co.uk/"
-  }
-}
-```
-
-### 10. GET /api/restaurants?sort_by=**sortByCriteria**
-
-This endpoint should be able to take a sort_by query that will sort the restaurants by the specified criteria, including rating. If no sort_by is specified, the sort should default to sorted alphabetically by name, descending.
-
-```js
-// GET /api/restaurants?sort_by=rating
-{
-  "restaurants": [
-    // restaurant objects sorted by rating, descending order
-  ]
-}
-```
